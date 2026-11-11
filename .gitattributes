@@ -1,0 +1,2 @@
+# The SQLite history is binary; never touch its line endings.
+*.db binary

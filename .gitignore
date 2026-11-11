@@ -1,0 +1,31 @@
+# secrets
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+build/
+dist/
+*.egg-info/
+
+# tool caches
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# the chart page is rebuilt from the history on every run
+site/
+
+# editors / OS
+.idea/
+.vscode/
+.DS_Store
+
+# SQLite side files (the history itself, state/ranks.db, IS committed)
+state/*.db-journal
+state/*.db-wal
+state/*.db-shm
+*.log

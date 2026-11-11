@@ -1,0 +1,75 @@
+# google-rank-tracker: the only file you need to edit.
+# Secrets (API key, webhook URLs) come from environment variables / repository secrets,
+# never from this file. Full reference: README.md > Config reference.
+
+# Your site. A result counts as yours when it is on this domain or a subdomain of it
+# (docs.python.org counts for python.org). Add a path to track one section only:
+# example.com/blog
+site: python.org
+
+# Sites to compare with, matched the same way (at most 7). They show in the digest and
+# the chart, and with alerts.competitors on you hear when one moves above or below you.
+competitors:
+  - realpython.com
+  - w3schools.com
+  - geeksforgeeks.org
+
+# The searches to track, as typed into Google. Each is checked once a day.
+# A keyword can use another country: - {keyword: python kurs, country: de}
+keywords:
+  - python tutorial
+  - python virtual environment
+  - python dataclasses
+  - python f-string
+  - python list comprehension
+
+# Country Google is searched from (two-letter code). null lets the API pick one, which
+# makes positions jump between countries; keep it set.
+country: us
+
+# Google result pages read per keyword, 1-10 (about 10 results each). Each page is one
+# billed API request. A site that is not on these pages counts as "not ranked".
+pages: 2
+
+# true: wait until Google gives out every result's real URL, so the ranking page is exact.
+# Up to about 40 seconds slower per keyword; billed the same.
+full_urls: true
+
+alerts:
+  # Alert when your position moved at least this many places since the last message.
+  # Small moves add up: 8 -> 7 -> 6 -> 5 alerts at 5 ("#8 -> #5").
+  min_change: 3
+  # Alert when you enter or leave the top N, however small the move. 0 = off.
+  top: 10
+  # Alert when a competitor moves above you, or you move above one.
+  competitors: true
+  # Alert when Google's AI Overview starts or stops citing your site.
+  ai_overview: true
+  # Alert when a different page of your site ranks for the keyword.
+  url_change: true
+  # Google sometimes answers the same search differently a minute later. With recheck on,
+  # a keyword that would alert is searched once more and only the second answer counts
+  # (costs `pages` more requests per changed keyword, only on days something changed).
+  recheck: true
+
+digest:
+  # A weekly summary: positions, change over the week, competitors, new sites in the
+  # top 10. Sent by the first run on or after this day each week (UTC). null = no digest.
+  weekday: monday
+  # List sites that entered the top N this week. 0 = off.
+  new_in_top: 10
+
+delivery:
+  # Any of: slack, discord, webhook. A destination whose secret is not set is skipped.
+  destinations: [slack, discord, webhook]
+  # On the first run, post where you stand for every keyword.
+  baseline_message: true
+
+report:
+  # Days of history in the chart page (google-rank-tracker report / GitHub Pages).
+  days: 90
+  # Page title. Empty: "Google rankings: <site>".
+  title: ""
+
+# The SQLite history. The workflow commits it after every run that checked something.
+database: state/ranks.db
